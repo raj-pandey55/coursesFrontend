@@ -5,9 +5,9 @@ import Layout from '../components/Layout';
 
 const CreateCourse = () => {
   const [courseData, setCourseData] = useState({
-    name: '',
+    title: '',
+    course_code: '',
     description: '',
-    code: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -40,8 +40,8 @@ const CreateCourse = () => {
           <label className="block text-gray-700">Course Name</label>
           <input
             type="text"
-            name="name"
-            value={courseData.name}
+            name="title"
+            value={courseData.title}
             onChange={handleChange}
             required
             className="w-full mt-1 p-2 border rounded"
@@ -61,7 +61,7 @@ const CreateCourse = () => {
           <label className="block text-gray-700">Course Code</label>
           <input
             type="text"
-            name="code"
+            name="course_code"
             value={courseData.code}
             onChange={handleChange}
             required

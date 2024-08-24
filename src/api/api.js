@@ -7,7 +7,22 @@ export const getCourses = () => axios.get(`${API_BASE_URL}/courses/`);
 
 export const getCourse = (id) => axios.get(`${API_BASE_URL}/courses/${id}/`);
 
-export const createCourse = (courseData) => axios.post(`${API_BASE_URL}/courses/`, courseData);
+// export const createCourse = (courseData) => axios.post(`${API_BASE_URL}/courses/`, courseData);
+export const createCourse = async (courseData) => {
+    const response = await fetch('http://localhost:8000/api/courses/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(courseData),
+    });
+  
+    if (!response.ok) {
+      throw new Error('Failed to create course');
+    }
+  
+    return response.json();
+  };
 
 export const deleteCourse = (id) => axios.delete(`${API_BASE_URL}/courses/${id}/`);
 

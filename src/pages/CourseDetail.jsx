@@ -51,7 +51,7 @@ const CourseDetail = () => {
       {course && (
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold">{course.name}</h2>
+            <h2 className="text-2xl font-bold">{course.title}</h2>
             <button
               onClick={() => setShowConfirm(true)}
               className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
@@ -60,7 +60,7 @@ const CourseDetail = () => {
             </button>
           </div>
           <p className="mb-2">
-            <span className="font-semibold">Course Code:</span> {course.code}
+            <span className="font-semibold">Course Code:</span> {course.course_code}
           </p>
           <p className="mb-4">
             <span className="font-semibold">Description:</span> {course.description}

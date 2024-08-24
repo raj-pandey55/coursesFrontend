@@ -1,10 +1,10 @@
 // src/pages/InstanceDetail.jsx
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { getInstanceInfo, deleteInstance } from '../api/api';
-import Layout from '../components/Layout';
-import LoadingSpinner from '../components/LoadingSpinner';
-import ConfirmationModal from '../components/ConfirmationModal';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { getInstanceInfo, deleteInstance } from "../api/api";
+import Layout from "../components/Layout";
+import LoadingSpinner from "../components/LoadingSpinner";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 const InstanceDetail = () => {
   const { year, semester, id } = useParams();
@@ -23,7 +23,7 @@ const InstanceDetail = () => {
         setInstance(response.data);
         setLoading(false);
       } catch (err) {
-        setError('Failed to fetch instance details.');
+        setError("Failed to fetch instance details.");
         setLoading(false);
       }
     };
@@ -35,9 +35,9 @@ const InstanceDetail = () => {
     try {
       await deleteInstance(year, semester, id);
       setDeleteLoading(false);
-      navigate('/instances');
+      navigate("/instances");
     } catch (err) {
-      setError('Failed to delete instance.');
+      setError("Failed to delete instance.");
       setDeleteLoading(false);
       setShowConfirm(false);
     }
@@ -51,9 +51,11 @@ const InstanceDetail = () => {
       {instance && (
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold">
-              {instance.course_name} - {year} {semester === '1' ? 'Spring' : semester === '2' ? 'Summer' : 'Fall'}
-            </h2>
+            <div>
+              <h1 className="text-2xl font-bold">CourseID - {instance.course}</h1>
+              <h1 className="text-2xl font-bold">Year - {year}</h1>
+              <h1 className="text-2xl font-bold">Semester - {semester}</h1>
+            </div>
             <button
               onClick={() => setShowConfirm(true)}
               className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
@@ -61,10 +63,7 @@ const InstanceDetail = () => {
               Delete Instance
             </button>
           </div>
-          <Link
-            to="/instances"
-            className="text-blue-500 hover:underline"
-          >
+          <Link to="/instances" className="text-blue-500 hover:underline">
             Back to Instances
           </Link>
         </div>

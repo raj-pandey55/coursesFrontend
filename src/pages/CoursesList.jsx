@@ -1,14 +1,18 @@
 // src/pages/CoursesList.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getCourses } from '../api/api';
+import { getCourses, deleteCourse } from '../api/api'; 
 import Layout from '../components/Layout';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ConfirmationModal from '../components/ConfirmationModal';
+import { FaTrash, FaSearch } from 'react-icons/fa'; 
 
 const CoursesList = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [courseToDelete, setCourseToDelete] = useState(null);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -23,6 +27,19 @@ const CoursesList = () => {
     };
     fetchCourses();
   }, []);
+
+  const handleDelete = async () => {
+    if (courseToDelete) {
+      try {
+        await deleteCourse(courseToDelete.id);
+        setCourses(courses.filter((course) => course.id !== courseToDelete.id));
+        setCourseToDelete(null);
+        setShowConfirm(false);
+      } catch (err) {
+        setError('Failed to delete course.');
+      }
+    }
+  };
 
   if (loading) return <LoadingSpinner />;
 
@@ -54,20 +71,36 @@ const CoursesList = () => {
             {courses.map((course) => (
               <tr key={course.id} className="hover:bg-gray-100">
                 <td className="py-2 px-4 border-b">{course.id}</td>
-                <td className="py-2 px-4 border-b">{course.name}</td>
-                <td className="py-2 px-4 border-b">{course.code}</td>
-                <td className="py-2 px-4 border-b">
+                <td className="py-2 px-4 border-b">{course.title}</td>
+                <td className="py-2 px-4 border-b">{course.course_code}</td>
+                <td className="py-2 px-4 border-b flex justify-center gap-3">
                   <Link
                     to={`/courses/${course.id}`}
-                    className="text-blue-500 hover:underline mr-2"
+                    className="text-black-500 hover:underline mr-2"
                   >
-                    View
+                    <FaSearch/>
                   </Link>
+                  <button
+                    onClick={() => {
+                      setCourseToDelete(course);
+                      setShowConfirm(true);
+                    }}
+                    className="text-black-500 hover:text-black-700"
+                  >
+                    <FaTrash />
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+      )}
+      {showConfirm && (
+        <ConfirmationModal
+          message="Are you sure you want to delete this course?"
+          onConfirm={handleDelete}
+          onCancel={() => setShowConfirm(false)}
+        />
       )}
     </Layout>
   );

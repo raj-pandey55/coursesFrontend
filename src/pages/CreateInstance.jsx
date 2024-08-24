@@ -71,18 +71,14 @@ const CreateInstance = () => {
         </div>
         <div>
           <label className="block text-gray-700">Semester</label>
-          <select
+          <input
+            type="text"
             name="semester"
             value={instanceData.semester}
             onChange={handleChange}
             required
             className="w-full mt-1 p-2 border rounded"
-          >
-            <option value="">Select Semester</option>
-            <option value="1">Spring</option>
-            <option value="2">Summer</option>
-            <option value="3">Fall</option>
-          </select>
+          />
         </div>
         <div>
           <label className="block text-gray-700">Course</label>
@@ -96,7 +92,7 @@ const CreateInstance = () => {
             <option value="">Select Course</option>
             {courses.map((course) => (
               <option key={course.id} value={course.id}>
-                {course.name}
+                {course.title}
               </option>
             ))}
           </select>
