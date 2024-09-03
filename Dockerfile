@@ -16,8 +16,11 @@ COPY . .
 # Build the app for production
 RUN npm run build
 
-# Expose the port your app runs on
-EXPOSE 5173
+# Install a simple server to serve the static files
+RUN npm install -g serve
 
-# Start the application using Vite preview
-CMD ["npm", "run", "dev"]
+# Expose the port for serving the static files
+EXPOSE 5000
+
+# Serve the built files
+CMD ["serve", "-s", "dist", "-l", "5000"]
